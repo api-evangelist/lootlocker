@@ -1,0 +1,106 @@
+name: LootLocker Plans and Pricing
+description: Pricing tiers for LootLocker game backend-as-a-service platform
+url: https://lootlocker.com/pricing
+version: "0.1"
+created: "2026-06-12"
+modified: "2026-06-12"
+
+plans:
+
+  - name: Non-Commercial License
+    description: >
+      Free license for non-monetized game projects including student assignments,
+      game jam entries, hobby games, and personal prototypes. Requires an
+      application through the LootLocker web console after account creation.
+      Not available for games that generate revenue.
+    price: 0.00
+    currency: USD
+    billingPeriod: monthly
+    url: https://lootlocker.com/pricing
+    features:
+      - Game API access
+      - Server API access
+      - Unity, Unreal Engine, and Godot SDKs
+      - Player authentication (Apple, Google, Steam, Epic Games, White Label)
+      - Leaderboards, progressions, virtual economy
+      - Discord community support
+    limits:
+      - name: Monthly Active Users
+        description: No hard MAU cap for approved non-commercial projects
+        value: unlimited
+        unit: MAU/month
+
+  - name: Trial
+    description: >
+      Free trial plan for new projects to evaluate LootLocker features without
+      a time limit but with a 1,000 monthly active user (MAU) cap. If the
+      project exceeds the MAU limit, LootLocker reaches out to discuss upgrade
+      options. No console authentication platforms included.
+    price: 0.00
+    currency: USD
+    billingPeriod: monthly
+    url: https://lootlocker.com/pricing
+    features:
+      - Game API access
+      - Server API access
+      - Unity, Unreal Engine, and Godot SDKs
+      - Basic authentication (Apple, Google, Steam, Epic Games, White Label, Guest)
+      - Leaderboards, progressions, virtual economy
+      - Persistent storage and cloud saves
+      - Discord community support
+    limits:
+      - name: Monthly Active Users
+        description: Hard cap at 1,000 MAU per month; upgrade required beyond this
+        value: 1000
+        unit: MAU/month
+
+  - name: Developer
+    description: >
+      Custom-priced plan for commercial game developers needing full platform
+      access including console authentication for PlayStation, Xbox, Nintendo
+      Switch, and Meta. Includes a dedicated success manager and all features
+      from the Trial tier. Pricing is negotiated directly with LootLocker.
+    price: custom
+    currency: USD
+    billingPeriod: monthly
+    url: https://lootlocker.com/pricing
+    contactRequired: true
+    features:
+      - Everything in Trial
+      - Console authentication (PlayStation, Xbox, Nintendo Switch, Meta)
+      - Dedicated success manager
+      - Priority support
+    limits:
+      - name: Monthly Active Users
+        description: Custom MAU limits negotiated with LootLocker
+        value: custom
+        unit: MAU/month
+
+  - name: Publisher
+    description: >
+      Top-tier plan for larger game publishers requiring unified player accounts
+      across multiple games, Twitch Drops integration, and player graph tracking.
+      Includes all Developer features plus publisher-grade cross-game player
+      management. Overage pricing applies at $0.015 per additional MAU above
+      the contracted amount.
+    price: custom
+    currency: USD
+    billingPeriod: monthly
+    url: https://lootlocker.com/pricing
+    contactRequired: true
+    features:
+      - Everything in Developer
+      - Unified player accounts across games
+      - Twitch Drops integration
+      - Player graph tracking
+      - Cross-game player identity
+    limits:
+      - name: Monthly Active Users
+        description: Contracted MAU with overage at $0.015 per additional MAU
+        value: custom
+        unit: MAU/month
+    overage:
+      - name: Additional MAU
+        price: 0.015
+        currency: USD
+        unit: MAU

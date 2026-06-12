@@ -1,0 +1,128 @@
+aid: lootlocker
+name: LootLocker
+description: >
+  LootLocker is a game backend-as-a-service platform that provides a REST API
+  for building cross-platform game features without managing server infrastructure.
+  The platform covers player authentication across Steam, Epic Games, PlayStation,
+  Xbox, Nintendo Switch, Apple, Google, and custom white-label flows, as well as
+  leaderboards, player progressions, virtual economies, persistent storage, cloud
+  saves, and player file hosting. Developers can also access character systems,
+  asset management, in-app purchasing, missions, collectibles, and Twitch Drops
+  integration through a unified API surface. SDKs are available for Unity, Unreal
+  Engine, and Godot, with basic integration support for GameMaker, Construct 3,
+  and GDevelop.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/lootlocker/refs/heads/main/apis.yml
+created: "2026-06-12"
+modified: "2026-06-12"
+specificationVersion: "0.19"
+tags:
+  - Games
+  - Game Backend
+  - Game Backend as a Service
+  - Player Authentication
+  - Leaderboards
+  - Progressions
+  - Virtual Economy
+  - Cloud Save
+  - Cross-Platform
+  - Multiplayer
+
+apis:
+  - aid: lootlocker:game-api
+    name: LootLocker Game API
+    description: >
+      The Game API is the primary client-side interface integrated into game
+      builds for communication between the game and the LootLocker backend.
+      It handles player session management, inventory, characters, assets,
+      leaderboards, progressions, persistent storage, player files, purchasing,
+      missions, and collectibles. All requests are authenticated via a
+      session_token returned at login and passed in the x-session-token header.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://ref.lootlocker.com/game-api/
+    baseURL: https://api.lootlocker.io/game
+    tags:
+      - Game API
+      - Player Authentication
+      - Leaderboards
+      - Inventory
+      - Cloud Save
+    properties:
+      - type: Documentation
+        url: https://docs.lootlocker.com/
+      - type: Reference
+        url: https://ref.lootlocker.com/game-api/
+
+  - aid: lootlocker:server-api
+    name: LootLocker Server API
+    description: >
+      The Server API is intended for trusted server-side communication between
+      a developer-managed game server and the LootLocker backend. It enables
+      secure operations on behalf of players from dedicated game servers or
+      backend services, supporting multiplayer and competitive game architectures
+      where client-side calls would be a security risk.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://ref.lootlocker.com/server-api/
+    baseURL: https://api.lootlocker.io
+    tags:
+      - Server API
+      - Multiplayer
+      - Trusted Server
+    properties:
+      - type: Documentation
+        url: https://docs.lootlocker.com/
+      - type: Reference
+        url: https://ref.lootlocker.com/server-api/
+
+  - aid: lootlocker:admin-api
+    name: LootLocker Admin API
+    description: >
+      The Admin API provides direct programmatic access to LootLocker's platform
+      management features, enabling game editor integrations and tooling that
+      interact with backend configuration. It is used for managing game settings,
+      player data, and platform resources outside of the in-game runtime context.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://ref.lootlocker.com/admin-api/
+    baseURL: https://api.lootlocker.io
+    tags:
+      - Admin API
+      - Management
+      - Configuration
+    properties:
+      - type: Documentation
+        url: https://docs.lootlocker.com/
+      - type: Reference
+        url: https://ref.lootlocker.com/admin-api/
+
+common:
+  - type: Website
+    url: https://lootlocker.com/
+  - type: Documentation
+    url: https://docs.lootlocker.com/
+  - type: GitHubOrg
+    url: https://github.com/lootlocker
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/lootlocker
+  - type: Blog
+    url: https://lootlocker.com/blog
+  - type: Pricing
+    url: https://lootlocker.com/pricing
+  - type: StatusPage
+    url: https://status.lootlocker.com/
+  - type: X
+    url: https://x.com/mylootlocker
+  - type: Changelog
+    url: https://lootlocker.com/changelog
+  - type: SDKs
+    url: https://lootlocker.com/sdk
+  - type: Plans
+    url: plans/lootlocker-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/lootlocker-rate-limits.yml
+  - type: FinOps
+    url: finops/lootlocker-finops.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

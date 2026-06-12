@@ -1,0 +1,128 @@
+name: LootLocker FinOps
+description: >
+  FinOps Framework 1.0 FOCUS-aligned cost and usage model for LootLocker
+  game backend-as-a-service. The primary cost driver is Monthly Active Users
+  (MAU), with the Trial plan capped at 1,000 MAU at no cost, and commercial
+  plans on custom pricing with a published overage rate of $0.015 per
+  additional MAU on the Publisher tier.
+version: "1.0"
+created: "2026-06-12"
+modified: "2026-06-12"
+url: https://lootlocker.com/pricing
+
+provider:
+  name: LootLocker
+  website: https://lootlocker.com
+  pricingPage: https://lootlocker.com/pricing
+  billingContact: https://lootlocker.com/pricing
+
+costModel:
+  type: MAU-based with custom enterprise pricing
+  description: >
+    LootLocker pricing is primarily driven by Monthly Active Users (MAU). The
+    free Trial tier allows up to 1,000 MAU at no cost. Non-commercial projects
+    can apply for a free license regardless of MAU. Commercial tiers (Developer
+    and Publisher) use negotiated custom pricing. The Publisher tier publishes
+    an overage rate of $0.015 per MAU beyond the contracted volume.
+
+metrics:
+  - name: Monthly Active Users (MAU)
+    description: >
+      A player is counted as a Monthly Active User when they create or resume a
+      session with the LootLocker Game API within a calendar month. This is the
+      primary billable unit across all commercial tiers.
+    unit: MAU
+    granularity: monthly
+    pricingImpact: primary
+
+  - name: Player File Storage
+    description: >
+      Each player can store up to 50 files with a maximum of 5 MB per file.
+      File storage is included in all plans; no per-GB storage overage is
+      currently published.
+    unit: files / MB
+    granularity: per-player
+    pricingImpact: indirect (included in plan)
+
+costAllocation:
+  dimensions:
+    - name: Game / Project
+      description: >
+        LootLocker organizes resources by game project. Each game project is a
+        separate billing entity within the account. Cost should be allocated per
+        project to track backend spend per title.
+    - name: Environment
+      description: >
+        Projects can operate across development, staging, and production
+        environments. MAU counts apply to production environments; development
+        sessions should be tracked separately to avoid inflating MAU counts.
+    - name: Platform / SDK
+      description: >
+        Players may authenticate via multiple platforms (Steam, PSN, Xbox,
+        Nintendo Switch, Apple, Google, Epic Games, etc.). Tracking MAU by
+        authentication platform provides visibility into cross-platform reach
+        and helps prioritize SDK investment.
+
+optimization:
+  recommendations:
+    - name: Monitor MAU Growth on Trial Plan
+      description: >
+        Trial plan is hard-capped at 1,000 MAU/month. Proactive monitoring of
+        MAU velocity prevents surprise outreach from LootLocker and allows time
+        to negotiate a Developer plan before hitting the cap.
+      effort: low
+      impact: high
+
+    - name: Apply for Non-Commercial License Early
+      description: >
+        Student projects, game jam entries, and hobby games should apply for the
+        Non-Commercial License before public launch to avoid needing a paid plan
+        for non-revenue-generating titles.
+      effort: low
+      impact: high
+
+    - name: Batch Server API Calls
+      description: >
+        Server-side operations should batch player updates where possible to
+        reduce total API call volume. Fewer requests reduce exposure to any
+        future usage-based pricing changes and improve latency.
+      effort: medium
+      impact: medium
+
+    - name: Track MAU by Authentication Platform
+      description: >
+        Breaking down MAU by authentication provider (Steam, PSN, Xbox, etc.)
+        identifies which platforms drive the most active users and informs
+        platform prioritization for marketing and SDK maintenance investment.
+      effort: medium
+      impact: medium
+
+    - name: Negotiate Overage Rate Before Scale
+      description: >
+        On the Publisher tier, overage is priced at $0.015 per additional MAU.
+        Teams projecting significant MAU growth should negotiate a higher
+        contracted MAU volume before hitting overage to secure better unit
+        economics.
+      effort: high
+      impact: high
+
+budgeting:
+  notes: >
+    LootLocker does not publish a public price calculator for Developer and
+    Publisher tiers. Budget planning requires direct engagement with the
+    LootLocker sales team. The only published unit price is $0.015 per MAU
+    overage on the Publisher tier. Teams should model 12-month MAU growth
+    curves based on game launch projections and negotiate contracted volumes
+    with 20-30% headroom to avoid overage charges.
+
+focus:
+  resourceType: Game Backend Service
+  serviceName: LootLocker
+  serviceCategory: Game Backend as a Service
+  provider: LootLocker
+  pricingUnit: MAU/month
+  publishedOverageRate:
+    value: 0.015
+    currency: USD
+    unit: MAU
+    tier: Publisher

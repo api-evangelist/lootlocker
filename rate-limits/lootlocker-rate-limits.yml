@@ -1,0 +1,91 @@
+name: LootLocker Rate Limits
+description: >
+  Rate limit information for the LootLocker Game, Server, and Admin APIs.
+  LootLocker does not publish explicit numerical rate limits in their public
+  documentation. Limits are enforced at the platform level and scale with the
+  active plan tier. The Trial plan is most restrictive given the 1,000 MAU cap,
+  while Developer and Publisher plans have higher throughput appropriate to
+  production workloads. Developers hitting limits should contact LootLocker
+  support or upgrade their plan.
+url: https://docs.lootlocker.com/
+version: "0.1"
+created: "2026-06-12"
+modified: "2026-06-12"
+
+rateLimits:
+
+  - name: Game API - Trial Tier
+    description: >
+      Rate limits for the Game API under the Trial plan. While exact request-per-
+      second figures are not published, the Trial plan is limited to 1,000 MAU per
+      month, which implicitly constrains total API call volume. Requests exceeding
+      platform thresholds return standard HTTP 429 Too Many Requests responses.
+    api: Game API
+    plan: Trial
+    baseURL: https://api.lootlocker.io/game
+    limits:
+      - name: Monthly Active Users
+        value: 1000
+        unit: MAU/month
+        description: Hard cap; triggers contact from LootLocker when exceeded
+      - name: Player File Size
+        value: 5
+        unit: MB
+        description: Maximum size per individual player file upload
+      - name: Player File Count
+        value: 50
+        unit: files
+        description: Maximum number of files per player account
+
+  - name: Game API - Developer and Publisher Tiers
+    description: >
+      Rate limits for the Game API under commercial plans. Throughput limits are
+      negotiated as part of the custom pricing agreement. Standard HTTP 429
+      responses are returned when platform-level throttling is triggered. Developers
+      experiencing throttling should contact their dedicated success manager.
+    api: Game API
+    plan: Developer, Publisher
+    baseURL: https://api.lootlocker.io/game
+    limits:
+      - name: Monthly Active Users
+        value: custom
+        unit: MAU/month
+        description: Negotiated per contract; overage priced at $0.015/MAU on Publisher tier
+      - name: Player File Size
+        value: 5
+        unit: MB
+        description: Maximum size per individual player file upload
+      - name: Player File Count
+        value: 50
+        unit: files
+        description: Maximum number of files per player account
+
+  - name: Server API
+    description: >
+      The Server API is used from trusted server infrastructure. Rate limits apply
+      at the platform level and scale with the plan tier. No specific requests-per-
+      second limits are published. Requests from dedicated game servers should be
+      designed to batch operations where possible to reduce API call frequency.
+    api: Server API
+    baseURL: https://api.lootlocker.io
+    limits:
+      - name: Request Rate
+        value: not published
+        unit: req/s
+        description: Enforced at platform level; contact LootLocker for specifics
+
+  - name: Pagination
+    description: >
+      The Game API uses cursor-based pagination. The count parameter controls
+      page size and the after parameter provides the cursor for the next page.
+    limits:
+      - name: Pagination Style
+        value: cursor-based
+        unit: cursor
+        description: Uses after (cursor) and count parameters for paginated endpoints
+
+headers:
+  - name: x-session-token
+    description: Session token required for all Game API requests; returned at authentication
+  - name: HTTP 429
+    description: Returned when rate limits are exceeded; retry with exponential backoff
