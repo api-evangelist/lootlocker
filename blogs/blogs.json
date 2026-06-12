@@ -1,0 +1,8 @@
+{
+  "blog": {
+    "url": "https://lootlocker.com/blog",
+    "rss": null,
+    "note": "No RSS or Atom feed discovered at standard paths (/feed, /rss, /blog/rss.xml, /blog/feed, /blog/rss, /rss.xml). The blog is rendered as a JavaScript SPA; no machine-readable feed is publicly available.",
+    "last_checked": "2026-06-12"
+  }
+}

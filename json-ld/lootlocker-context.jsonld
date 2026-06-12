@@ -1,0 +1,93 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://schema.org/name",
+    "description": "http://schema.org/description",
+    "url": "http://schema.org/url",
+    "image": "http://schema.org/image",
+    "sameAs": "http://schema.org/sameAs",
+    "provider": "http://schema.org/provider",
+    "SoftwareApplication": "http://schema.org/SoftwareApplication",
+    "WebAPI": "http://schema.org/WebAPI",
+    "EntryPoint": "http://schema.org/EntryPoint",
+    "documentation": "http://schema.org/documentation",
+    "termsOfService": "http://schema.org/termsOfService",
+    "lootlocker": "https://lootlocker.com/vocab#",
+    "GameAPI": "lootlocker:GameAPI",
+    "ServerAPI": "lootlocker:ServerAPI",
+    "AdminAPI": "lootlocker:AdminAPI",
+    "playerAuthentication": "lootlocker:playerAuthentication",
+    "sessionToken": "lootlocker:sessionToken",
+    "leaderboard": "lootlocker:leaderboard",
+    "progression": "lootlocker:progression",
+    "virtualEconomy": "lootlocker:virtualEconomy",
+    "cloudSave": "lootlocker:cloudSave",
+    "playerFile": "lootlocker:playerFile",
+    "inventory": "lootlocker:inventory",
+    "character": "lootlocker:character",
+    "asset": "lootlocker:asset",
+    "mission": "lootlocker:mission",
+    "collectible": "lootlocker:collectible",
+    "twitchDrops": "lootlocker:twitchDrops",
+    "inAppPurchase": "lootlocker:inAppPurchase",
+    "gameBackend": "lootlocker:gameBackend",
+    "crossPlatform": "lootlocker:crossPlatform",
+    "sdk": "lootlocker:sdk",
+    "unitySDK": "lootlocker:unitySDK",
+    "unrealSDK": "lootlocker:unrealSDK",
+    "godotSDK": "lootlocker:godotSDK",
+    "platform": {
+      "@id": "lootlocker:platform",
+      "@type": "@id"
+    },
+    "baseURL": "lootlocker:baseURL",
+    "authHeader": "lootlocker:authHeader"
+  },
+  "@graph": [
+    {
+      "@type": "WebAPI",
+      "name": "LootLocker Game API",
+      "description": "Primary client-side interface for communication between the game and the LootLocker backend, handling player sessions, inventory, leaderboards, progressions, and more.",
+      "url": "https://ref.lootlocker.com/game-api/",
+      "documentation": "https://docs.lootlocker.com/",
+      "provider": {
+        "@type": "Organization",
+        "name": "LootLocker",
+        "url": "https://lootlocker.com/",
+        "sameAs": [
+          "https://github.com/lootlocker",
+          "https://www.linkedin.com/company/lootlocker",
+          "https://x.com/mylootlocker"
+        ]
+      },
+      "baseURL": "https://api.lootlocker.io/game",
+      "authHeader": "x-session-token"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "LootLocker Server API",
+      "description": "Trusted server-side API for secure operations on behalf of players from dedicated game servers or backend services.",
+      "url": "https://ref.lootlocker.com/server-api/",
+      "documentation": "https://docs.lootlocker.com/",
+      "provider": {
+        "@type": "Organization",
+        "name": "LootLocker",
+        "url": "https://lootlocker.com/"
+      },
+      "baseURL": "https://api.lootlocker.io"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "LootLocker Admin API",
+      "description": "Programmatic access to LootLocker platform management for game editor integrations, settings, player data, and resource configuration.",
+      "url": "https://ref.lootlocker.com/admin-api/",
+      "documentation": "https://docs.lootlocker.com/",
+      "provider": {
+        "@type": "Organization",
+        "name": "LootLocker",
+        "url": "https://lootlocker.com/"
+      },
+      "baseURL": "https://api.lootlocker.io"
+    }
+  ]
+}
