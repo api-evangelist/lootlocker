@@ -1,0 +1,840 @@
+"""
+LootLocker Game Backend GraphQL Schema
+Derived from the LootLocker Game API, Server API, and Admin API REST surfaces.
+Reference: https://ref.lootlocker.com/game-api/
+"""
+
+# ─────────────────────────────────────────────
+# Scalars
+# ─────────────────────────────────────────────
+
+scalar DateTime
+scalar JSON
+scalar Upload
+
+# ─────────────────────────────────────────────
+# Enums
+# ─────────────────────────────────────────────
+
+enum AuthProvider {
+  STEAM
+  EPIC_GAMES
+  PLAYSTATION
+  XBOX
+  NINTENDO_SWITCH
+  APPLE
+  GOOGLE
+  WHITE_LABEL
+  GUEST
+}
+
+enum PurchaseStatusValue {
+  OPEN
+  FAILED
+  COMPLETED
+  CANCELLED
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AssetVariantType {
+  DEFAULT
+  RENTAL
+  CONTEXT
+}
+
+# ─────────────────────────────────────────────
+# Player
+# ─────────────────────────────────────────────
+
+"""Top-level player record returned from session and player endpoints."""
+type Player {
+  id: ID!
+  publicUID: String!
+  name: String
+  info: PlayerInfo
+  identifier: PlayerIdentifier
+  details: PlayerDetails
+  session: Session
+  inventory: [InventoryDetails!]
+  characters: [Character!]
+  progressions: [Progression!]
+  storage: [StorageObject!]
+  files: [File!]
+  notifications: [Notification!]
+  purchases: [Purchase!]
+  groups: [Group!]
+}
+
+"""Basic player information surfaced on public profiles."""
+type PlayerInfo {
+  id: ID!
+  publicUID: String!
+  name: String
+  lastActivePlatform: String
+  created: DateTime
+}
+
+"""Extended player details including metadata and account linking."""
+type PlayerDetails {
+  id: ID!
+  publicUID: String!
+  name: String
+  memberSince: DateTime
+  lastSeen: DateTime
+  metadata: [Metadata!]
+  identifiers: [PlayerIdentifier!]
+}
+
+"""A single platform identity tied to a player account."""
+type PlayerIdentifier {
+  id: ID!
+  provider: AuthProvider!
+  providerUID: String!
+  name: String
+  email: String
+}
+
+# ─────────────────────────────────────────────
+# Session
+# ─────────────────────────────────────────────
+
+"""An authenticated game session for a player."""
+type Session {
+  sessionToken: SessionToken!
+  player: PlayerInfo!
+  game: GameVersion!
+  created: DateTime!
+  expiresAt: DateTime
+}
+
+"""Details returned alongside a new session."""
+type SessionDetails {
+  sessionToken: SessionToken!
+  playerID: ID!
+  publicUID: String!
+  checkGrant: Boolean
+  seen: Boolean
+  created: DateTime!
+}
+
+"""The token used to authenticate subsequent game-client requests."""
+type SessionToken {
+  token: String!
+  expiresAt: DateTime
+}
+
+"""Version and build metadata for the running game build."""
+type GameVersion {
+  gameID: ID!
+  gameKey: String!
+  gameName: String
+  developmentMode: Boolean!
+  version: String
+}
+
+# ─────────────────────────────────────────────
+# Character
+# ─────────────────────────────────────────────
+
+"""A player-owned character slot."""
+type Character {
+  id: ID!
+  isDefault: Boolean!
+  name: String
+  type: CharacterType!
+  details: CharacterDetails
+  inventory: [InventoryDetails!]
+}
+
+"""Extended attributes for a character."""
+type CharacterDetails {
+  id: ID!
+  name: String
+  type: CharacterType!
+  metadata: [Metadata!]
+}
+
+"""A template defining the shape of a character."""
+type CharacterType {
+  id: ID!
+  name: String!
+  storage: [StorageObject!]
+}
+
+# ─────────────────────────────────────────────
+# Inventory & Assets
+# ─────────────────────────────────────────────
+
+"""A player or character inventory container."""
+type Inventory {
+  items: [InventoryDetails!]!
+  total: Int!
+}
+
+"""A single inventory entry — one instance of an asset held by a player."""
+type InventoryDetails {
+  instanceID: ID!
+  variationID: String
+  rentalOptionID: String
+  acquisitionSource: String
+  acquired: DateTime
+  asset: AssetDetails!
+}
+
+"""Full asset record from the asset catalogue."""
+type Asset {
+  id: ID!
+  ulid: String
+  name: String!
+  active: Boolean!
+  purchasable: Boolean!
+  type: AssetType!
+  assetClass: AssetClass
+  storage: AssetStorage
+  files: AssetFiles
+  details: AssetDetails
+  price: Price
+  catalogListings: [Listing!]
+}
+
+"""Resolved asset data including context and metadata."""
+type AssetDetails {
+  id: ID!
+  ulid: String
+  name: String!
+  active: Boolean!
+  purchasable: Boolean!
+  type: AssetType
+  storage: AssetStorage
+  files: AssetFiles
+  context: JSON
+  filters: [String!]
+  metadata: [Metadata!]
+}
+
+"""Classifies what kind of thing the asset is."""
+type AssetType {
+  id: ID!
+  name: String!
+}
+
+"""Organises assets into logical class groupings."""
+type AssetClass {
+  id: ID!
+  name: String!
+}
+
+"""Binary and structured data files attached to an asset."""
+type AssetFiles {
+  thumbnail: String
+  file: String
+  links: [String!]
+}
+
+"""Key-value storage embedded directly on an asset."""
+type AssetStorage {
+  entries: [KeyValue!]!
+}
+
+# ─────────────────────────────────────────────
+# Instances
+# ─────────────────────────────────────────────
+
+"""A runtime instance of an asset in a player's inventory."""
+type Instance {
+  id: ID!
+  assetID: ID!
+  variationID: String
+}
+
+"""Extended runtime details for an inventory instance."""
+type InstanceDetails {
+  id: ID!
+  assetID: ID!
+  variationID: String
+  storage: [StorageObject!]
+  keyValues: [KeyValue!]
+}
+
+# ─────────────────────────────────────────────
+# Purchasing & Catalog
+# ─────────────────────────────────────────────
+
+"""A purchase transaction record."""
+type Purchase {
+  id: ID!
+  transactionID: String
+  player: PlayerInfo!
+  items: [PurchaseDetails!]!
+  status: PurchaseStatus!
+  created: DateTime!
+}
+
+"""Line-item detail within a purchase."""
+type PurchaseDetails {
+  assetID: ID!
+  variationID: String
+  rentalOptionID: String
+  quantity: Int!
+  price: Price!
+}
+
+"""Current lifecycle state of a purchase."""
+type PurchaseStatus {
+  status: PurchaseStatusValue!
+  reason: String
+  updatedAt: DateTime
+}
+
+"""A downloadable content bundle."""
+type DLC {
+  id: ID!
+  name: String!
+  platform: String
+  details: DLCDetails
+}
+
+"""Metadata and payload of a DLC bundle."""
+type DLCDetails {
+  id: ID!
+  name: String!
+  platform: String
+  assets: [AssetDetails!]
+}
+
+"""A virtual store catalog."""
+type Catalog {
+  id: ID!
+  key: String!
+  name: String
+  details: CatalogDetails
+  listings: [Listing!]!
+}
+
+"""Extended attributes of a catalog."""
+type CatalogDetails {
+  id: ID!
+  key: String!
+  name: String
+  created: DateTime
+  listings: [Listing!]!
+}
+
+"""A single item listing within a catalog."""
+type Listing {
+  id: ID!
+  catalogID: ID!
+  assetID: ID!
+  asset: AssetDetails
+  details: ListingDetails
+  prices: [Price!]!
+}
+
+"""Extended metadata for a catalog listing."""
+type ListingDetails {
+  id: ID!
+  catalogID: ID!
+  assetID: ID!
+  title: String
+  description: String
+  metadata: [Metadata!]
+}
+
+"""A price in a specific virtual or real currency."""
+type Price {
+  amount: Int!
+  currencyCode: String!
+  currency: CurrencyDetails
+}
+
+"""A virtual or real currency definition."""
+type CurrencyDetails {
+  id: ID!
+  code: String!
+  name: String!
+  symbol: String
+  exchangeRate: Float
+}
+
+# ─────────────────────────────────────────────
+# Progressions
+# ─────────────────────────────────────────────
+
+"""A key identifying a progression track."""
+type ProgressionKey {
+  id: ID!
+  key: String!
+  name: String
+  directAwards: Boolean
+}
+
+"""A player's current position on a progression track."""
+type Progression {
+  playerID: ID!
+  progressionKey: ProgressionKey!
+  points: Int!
+  step: Int!
+  currentTier: ProgressionTier
+  lastLevelUp: DateTime
+  details: ProgressionDetails
+}
+
+"""Full details of a progression record including tier history."""
+type ProgressionDetails {
+  playerID: ID!
+  progressionKey: ProgressionKey!
+  points: Int!
+  step: Int!
+  tiers: [ProgressionTier!]!
+  previousTier: ProgressionTier
+  currentTier: ProgressionTier
+  nextTier: ProgressionTier
+}
+
+"""The individual steps that make up a progression tier boundary."""
+type Steps {
+  pointsNeeded: Int!
+  completedAt: DateTime
+}
+
+"""A single tier within a progression track."""
+type ProgressionTier {
+  tier: Int!
+  directAwardLimit: Int
+  pointsRequiredForTier: Int!
+  rewards: [TierReward!]!
+  details: TierDetails
+}
+
+"""Extended metadata for a progression tier."""
+type TierDetails {
+  tier: Int!
+  pointsRequiredForTier: Int!
+  rewards: [TierReward!]!
+}
+
+"""A reward granted when a player reaches a tier."""
+type TierReward {
+  id: ID!
+  type: String!
+  assetID: ID
+  currencyCode: String
+  amount: Int
+  metadata: [Metadata!]
+}
+
+# ─────────────────────────────────────────────
+# Leaderboards
+# ─────────────────────────────────────────────
+
+"""A leaderboard definition."""
+type Leaderboard {
+  id: ID!
+  key: String!
+  name: String
+  details: LeaderboardDetails
+  scores: [Score!]
+}
+
+"""Full configuration and rank list for a leaderboard."""
+type LeaderboardDetails {
+  id: ID!
+  key: String!
+  name: String
+  direction: String
+  type: String
+  uniqueMembers: Boolean
+  scores: [Score!]
+}
+
+"""A single score entry on a leaderboard."""
+type Score {
+  member: Member!
+  rank: Rank!
+  score: Int!
+  metadata: String
+  submission: Submission
+}
+
+"""Ranking position data for a leaderboard entry."""
+type Rank {
+  rank: Int!
+  firstOnRank: Boolean
+}
+
+"""Player or character representation on a leaderboard."""
+type Member {
+  memberID: String!
+  player: PlayerInfo
+  character: CharacterDetails
+  metadata: String
+}
+
+"""A score submission request payload."""
+type Submission {
+  memberID: String!
+  score: Int!
+  metadata: String
+  submittedAt: DateTime
+}
+
+# ─────────────────────────────────────────────
+# Triggers & Drip Rewards
+# ─────────────────────────────────────────────
+
+"""An event trigger that fires reward pipelines."""
+type Trigger {
+  id: ID!
+  key: String!
+  name: String
+  details: TriggerDetails
+}
+
+"""Configuration for a trigger definition."""
+type TriggerDetails {
+  id: ID!
+  key: String!
+  name: String
+  limit: Int
+  rewards: [DripReward!]!
+}
+
+"""A reward dripped to a player when a trigger fires."""
+type DripReward {
+  id: ID!
+  type: String!
+  assetID: ID
+  currencyCode: String
+  amount: Int
+  metadata: [Metadata!]
+}
+
+# ─────────────────────────────────────────────
+# Storage & Key-Values
+# ─────────────────────────────────────────────
+
+"""Player or game persistent cloud storage."""
+type Storage {
+  playerID: ID!
+  objects: [StorageObject!]!
+}
+
+"""A single named storage object."""
+type StorageObject {
+  id: ID!
+  key: String!
+  value: String!
+  order: Int
+  lastUpdated: DateTime
+}
+
+"""A generic key-value pair used throughout the schema."""
+type KeyValue {
+  key: String!
+  value: String!
+}
+
+# ─────────────────────────────────────────────
+# Notifications
+# ─────────────────────────────────────────────
+
+"""A notification delivered to a player."""
+type Notification {
+  id: ID!
+  read: Boolean!
+  type: String!
+  priority: Priority!
+  details: NotificationDetails
+  created: DateTime!
+}
+
+"""Body and payload of a notification."""
+type NotificationDetails {
+  id: ID!
+  type: String!
+  priority: Priority!
+  body: String
+  contextID: String
+  metadata: [Metadata!]
+  created: DateTime!
+}
+
+"""Severity / importance level for a notification."""
+type Priority {
+  value: NotificationPriority!
+  label: String
+}
+
+# ─────────────────────────────────────────────
+# Groups
+# ─────────────────────────────────────────────
+
+"""A player group (guild, team, clan, etc.)."""
+type Group {
+  id: ID!
+  name: String!
+  details: GroupDetails
+  members: [GroupMember!]
+}
+
+"""Extended attributes of a group."""
+type GroupDetails {
+  id: ID!
+  name: String!
+  description: String
+  created: DateTime
+  members: [GroupMember!]
+  metadata: [Metadata!]
+}
+
+"""A member entry within a group."""
+type GroupMember {
+  playerID: ID!
+  player: PlayerInfo
+  role: String
+  joinedAt: DateTime
+}
+
+# ─────────────────────────────────────────────
+# Files
+# ─────────────────────────────────────────────
+
+"""A player-uploaded file stored on the LootLocker CDN."""
+type File {
+  id: ID!
+  name: String!
+  size: Int
+  purpose: String
+  url: String!
+  created: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Challenges
+# ─────────────────────────────────────────────
+
+"""A challenge or mission definition."""
+type Challenge {
+  id: ID!
+  key: String!
+  name: String
+  details: ChallengeDetails
+}
+
+"""Full configuration for a challenge or mission."""
+type ChallengeDetails {
+  id: ID!
+  key: String!
+  name: String
+  description: String
+  goal: Int
+  rewards: [TierReward!]!
+  metadata: [Metadata!]
+}
+
+# ─────────────────────────────────────────────
+# Metadata
+# ─────────────────────────────────────────────
+
+"""Arbitrary metadata tag attached to various entities."""
+type Metadata {
+  key: String!
+  value: String!
+  type: String
+}
+
+# ─────────────────────────────────────────────
+# Auth / Admin
+# ─────────────────────────────────────────────
+
+"""A game or server API key credential."""
+type APIKey {
+  id: ID!
+  key: String!
+  name: String
+  created: DateTime
+  lastUsed: DateTime
+}
+
+"""A short-lived JWT or opaque token for server-to-server calls."""
+type Token {
+  token: String!
+  type: String!
+  expiresAt: DateTime
+}
+
+"""An admin user account on the LootLocker dashboard."""
+type Admin {
+  id: ID!
+  email: String!
+  name: String
+  role: String
+  created: DateTime
+}
+
+"""SDK descriptor returned from the SDKs endpoint."""
+type SDK {
+  id: ID!
+  platform: String!
+  name: String!
+  repoURL: String
+  latestVersion: String
+  releaseDate: DateTime
+}
+
+# ─────────────────────────────────────────────
+# Root Operations
+# ─────────────────────────────────────────────
+
+type Query {
+  # Players
+  player(id: ID!): Player
+  playerByUID(publicUID: String!): Player
+
+  # Sessions
+  session(token: String!): Session
+
+  # Characters
+  character(playerID: ID!, characterID: ID!): Character
+  characters(playerID: ID!): [Character!]
+
+  # Inventory
+  inventory(playerID: ID!): Inventory
+  characterInventory(playerID: ID!, characterID: ID!): Inventory
+
+  # Assets
+  asset(id: ID!): Asset
+  assets(page: Int, pageSize: Int): [Asset!]
+
+  # Instances
+  instance(playerID: ID!, instanceID: ID!): InstanceDetails
+
+  # Purchasing
+  purchase(id: ID!): Purchase
+  purchaseStatus(orderID: ID!): PurchaseStatus
+
+  # DLC
+  dlc(id: ID!): DLC
+  dlcs: [DLC!]
+
+  # Catalog
+  catalog(key: String!): Catalog
+  catalogs: [Catalog!]
+  listing(catalogKey: String!, listingID: ID!): Listing
+
+  # Progressions
+  progressionKey(key: String!): ProgressionKey
+  progressionKeys: [ProgressionKey!]
+  progression(playerID: ID!, progressionKey: String!): Progression
+  progressions(playerID: ID!): [Progression!]
+
+  # Leaderboards
+  leaderboard(key: String!): Leaderboard
+  leaderboards: [Leaderboard!]
+  playerScore(leaderboardKey: String!, playerID: ID!): Score
+
+  # Storage
+  playerStorage(playerID: ID!): Storage
+  instanceStorage(playerID: ID!, instanceID: ID!): [StorageObject!]
+
+  # Notifications
+  notifications(playerID: ID!): [Notification!]
+
+  # Groups
+  group(id: ID!): Group
+  playerGroups(playerID: ID!): [Group!]
+
+  # Files
+  playerFile(playerID: ID!, fileID: ID!): File
+  playerFiles(playerID: ID!): [File!]
+
+  # Challenges
+  challenge(key: String!): Challenge
+  challenges: [Challenge!]
+
+  # Admin / SDK
+  admin(id: ID!): Admin
+  apiKeys: [APIKey!]
+  sdks: [SDK!]
+}
+
+type Mutation {
+  # Sessions
+  startSession(gameKey: String!, provider: AuthProvider!, providerToken: String): SessionDetails!
+  endSession(sessionToken: String!): Boolean!
+
+  # Players
+  updatePlayerName(sessionToken: String!, name: String!): PlayerInfo!
+
+  # Characters
+  createCharacter(sessionToken: String!, typeID: ID!, name: String!, isDefault: Boolean): Character!
+  updateCharacter(sessionToken: String!, characterID: ID!, name: String): Character!
+
+  # Inventory
+  grantAssetToPlayer(playerID: ID!, assetID: ID!, variationID: String): InventoryDetails!
+
+  # Instances
+  updateInstanceKeyValues(sessionToken: String!, instanceID: ID!, keyValues: [KeyValueInput!]!): InstanceDetails!
+
+  # Purchasing
+  purchaseAssets(sessionToken: String!, items: [PurchaseItemInput!]!): Purchase!
+  cancelPurchase(sessionToken: String!, purchaseID: ID!): Purchase!
+
+  # Progressions
+  awardProgressionPoints(sessionToken: String!, progressionKey: String!, points: Int!): Progression!
+  deductProgressionPoints(sessionToken: String!, progressionKey: String!, points: Int!): Progression!
+
+  # Leaderboards
+  submitScore(sessionToken: String!, leaderboardKey: String!, score: Int!, metadata: String): Score!
+
+  # Triggers
+  fireTrigger(sessionToken: String!, triggerKey: String!): [DripReward!]!
+
+  # Storage
+  updatePlayerStorage(sessionToken: String!, objects: [StorageObjectInput!]!): Storage!
+  deletePlayerStorageKeys(sessionToken: String!, keys: [String!]!): Boolean!
+
+  # Notifications
+  markNotificationsRead(sessionToken: String!, notificationIDs: [ID!]!): Boolean!
+
+  # Groups
+  createGroup(sessionToken: String!, name: String!, description: String): Group!
+  joinGroup(sessionToken: String!, groupID: ID!): Group!
+  leaveGroup(sessionToken: String!, groupID: ID!): Boolean!
+
+  # Files
+  uploadPlayerFile(sessionToken: String!, file: Upload!, name: String!, purpose: String): File!
+  deletePlayerFile(sessionToken: String!, fileID: ID!): Boolean!
+
+  # Admin
+  createAPIKey(name: String!): APIKey!
+  revokeAPIKey(id: ID!): Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Input Types
+# ─────────────────────────────────────────────
+
+input KeyValueInput {
+  key: String!
+  value: String!
+}
+
+input StorageObjectInput {
+  key: String!
+  value: String!
+  order: Int
+}
+
+input PurchaseItemInput {
+  assetID: ID!
+  variationID: String
+  rentalOptionID: String
+  quantity: Int
+}
