@@ -4,5 +4,14 @@
     "rss": null,
     "note": "No RSS or Atom feed discovered at standard paths (/feed, /rss, /blog/rss.xml, /blog/feed, /blog/rss, /rss.xml). The blog is rendered as a JavaScript SPA; no machine-readable feed is publicly available.",
     "last_checked": "2026-06-12"
-  }
+  },
+  "repo": "lootlocker",
+  "feeds": [
+    {
+      "source": "https://www.linkedin.com/company/lootlocker",
+      "error": "HTTPError"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-14T20:42:17Z"
 }
