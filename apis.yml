@@ -12,7 +12,7 @@ description: 'LootLocker is a game backend-as-a-service platform that provides a
 
   '
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/lootlocker/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
@@ -39,7 +39,7 @@ apis:
     in the x-session-token header.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://ref.lootlocker.com/game-api/
   baseURL: https://api.lootlocker.io/game
   tags:
@@ -64,7 +64,7 @@ apis:
     would be a security risk.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://ref.lootlocker.com/server-api/
   baseURL: https://api.lootlocker.io
   tags:
@@ -84,7 +84,7 @@ apis:
     data, and platform resources outside of the in-game runtime context.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://ref.lootlocker.com/admin-api/
   baseURL: https://api.lootlocker.io
   tags:
