@@ -113,7 +113,7 @@ common:
   url: https://status.lootlocker.com/
 - type: X
   url: https://x.com/mylootlocker
-- type: Changelog
+- type: ChangeLog
   url: https://lootlocker.com/changelog
 - type: SDKs
   url: https://lootlocker.com/sdk
