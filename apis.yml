@@ -97,6 +97,8 @@ apis:
   - type: Reference
     url: https://ref.lootlocker.com/admin-api/
 common:
+- type: DomainSecurity
+  url: security/lootlocker-domain-security.yml
 - type: Website
   url: https://lootlocker.com/
 - type: Documentation
