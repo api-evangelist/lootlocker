@@ -76,8 +76,6 @@ apis:
     url: https://docs.lootlocker.com/
   - type: Reference
     url: https://ref.lootlocker.com/game-api/
-  - url: graphql/lootlocker-graphql.md
-    type: GraphQL
 - aid: lootlocker:server-api
   name: LootLocker Server API
   description: 'The Server API is intended for trusted server-side communication between
