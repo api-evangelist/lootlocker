@@ -109,3 +109,36 @@ plans:
         price: 0.015
         currency: USD
         unit: MAU
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - metered
+  - negotiated
+  units: []
+  plans:
+  - name: Non-Commercial License
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Trial
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Developer
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Publisher
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
