@@ -1,4 +1,4 @@
-# LootLocker (lootlocker)
+# LootLocker
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,68 +66,118 @@
 
 LootLocker is a game backend-as-a-service platform that provides a REST API for building cross-platform game features without managing server infrastructure. The platform covers player authentication across Steam, Epic Games, PlayStation, Xbox, Nintendo Switch, Apple, Google, and custom white-label flows, as well as leaderboards, player progressions, virtual economies, persistent storage, cloud saves, and player file hosting. Developers can also access character systems, asset management, in-app purchasing, missions, collectibles, and Twitch Drops integration through a unified API surface. SDKs are available for Unity, Unreal Engine, and Godot, with basic integration support for GameMaker, Construct 3, and GDevelop.
 
-**APIs.json:** https://raw.githubusercontent.com/api-evangelist/lootlocker/refs/heads/main/apis.yml
+**Areas:** Games · Game Backend · Game Backend as a Service · Player Authentication · Leaderboards · Progressions · Virtual Economy · Cloud Save · Cross-Platform · Multiplayer
 
-**Naftiko:** https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=lootlocker-api-evangelist&utm_content=repo
+## LootLocker on APIs.io
 
----
+Everything profiled for LootLocker is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/lootlocker/](https://apis.io/providers/lootlocker/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (3)
 
-Games, Game Backend, Game Backend as a Service, Player Authentication, Leaderboards, Progressions, Virtual Economy, Cloud Save, Cross-Platform, Multiplayer
+- [LootLocker Game API](https://apis.io/apis/lootlocker/game-api/) — The Game API is the primary client-side interface integrated into game builds for communication between the game and the LootLocker backend. It handles…
+- [LootLocker Server API](https://apis.io/apis/lootlocker/server-api/) — The Server API is intended for trusted server-side communication between a developer-managed game server and the LootLocker backend. It enables secure…
+- [LootLocker Admin API](https://apis.io/apis/lootlocker/admin-api/) — The Admin API provides direct programmatic access to LootLocker's platform management features, enabling game editor integrations and tooling that interact…
 
----
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-| Name | Description | Reference |
-|------|-------------|-----------|
-| LootLocker Game API | Client-side API integrated into game builds for player sessions, inventory, leaderboards, progressions, storage, and more | https://ref.lootlocker.com/game-api/ |
-| LootLocker Server API | Trusted server-side API for secure communication between dedicated game servers and the LootLocker backend | https://ref.lootlocker.com/server-api/ |
-| LootLocker Admin API | Platform management API for game editor integrations and backend configuration tooling | https://ref.lootlocker.com/admin-api/ |
+#### GraphQL (1)
 
----
+GraphQL schemas.
 
-## Plans / Rate Limits / FinOps
+- [Moved to /providers/lootlocker/](https://apis.io/graphqls/lootlocker/lootlocker-graphql/)
 
-| Resource | File |
-|----------|------|
-| Plans and Pricing | [plans/lootlocker-plans-pricing.yml](plans/lootlocker-plans-pricing.yml) |
-| Rate Limits | [rate-limits/lootlocker-rate-limits.yml](rate-limits/lootlocker-rate-limits.yml) |
-| FinOps | [finops/lootlocker-finops.yml](finops/lootlocker-finops.yml) |
+#### JSON-LD (1)
 
-**Plan summary:** Trial (free, 1,000 MAU/month), Non-Commercial License (free for non-monetized games), Developer (custom pricing, adds console auth), Publisher (custom pricing, unified player accounts, Twitch Drops, $0.015/MAU overage).
+Linked-data contexts for the provider's vocabulary.
 
----
+- [Lootlocker Context](https://apis.io/jsonld/lootlocker/lootlocker-context/)
 
-## Timestamps
+#### Security (1)
 
-| Field | Value |
-|-------|-------|
-| Created | 2026-06-12 |
-| Modified | 2026-06-12 |
+Authentication, trust centre, and vulnerability disclosure.
 
----
+- [Lootlocker Domain Security](https://apis.io/security/lootlocker/lootlocker-domain-security/)
 
-## Common
+#### Plans and pricing (1)
 
-| Type | URL |
-|------|-----|
-| Website | https://lootlocker.com/ |
-| Documentation | https://docs.lootlocker.com/ |
-| GitHub Org | https://github.com/lootlocker |
-| LinkedIn | https://www.linkedin.com/company/lootlocker |
-| Blog | https://lootlocker.com/blog |
-| Pricing | https://lootlocker.com/pricing |
-| Status Page | https://status.lootlocker.com/ |
-| X | https://x.com/mylootlocker |
-| Changelog | https://lootlocker.com/changelog |
-| SDKs | https://lootlocker.com/sdk |
+Published plans, tiers and prices.
 
----
+- [Lootlocker Plans Pricing](https://apis.io/plans/lootlocker/lootlocker-plans-pricing/)
 
-## Maintainers
+#### Rate limits (1)
 
-| Name | Email |
-|------|-------|
-| Kin Lane | kin@apievangelist.com |
+Published request limits.
+
+- [Lootlocker Rate Limits](https://apis.io/rate-limits/lootlocker/lootlocker-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Lootlocker Finops](https://apis.io/finops/lootlocker/lootlocker-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://lootlocker.com/)
+- [Documentation](https://docs.lootlocker.com/)
+- [Pricing](https://lootlocker.com/pricing)
+- [Changelog](https://lootlocker.com/changelog)
+- [Blog](https://lootlocker.com/blog)
+- [Status](https://status.lootlocker.com/)
+
+## API Evangelist rating
+
+**Kin Score 22.9** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 10.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 26.2 |
+| Access clarity | 18.4 |
+
+**Agent readiness 0.6** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/lootlocker/](https://apis.io/providers/lootlocker/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for LootLocker: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/lootlocker/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
